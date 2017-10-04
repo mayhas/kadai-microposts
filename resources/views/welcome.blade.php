@@ -10,6 +10,10 @@
                     </div>
                     {!! Form::submit('Post', ['class' => 'btn btn-primary btn-block']) !!}
                 {!! Form::close() !!}
+
+                {!! Form::open(['route' => ['users.bookmark', Auth::user()->id], 'method' => 'get']) !!}
+                    {!! Form::submit('Show Bookmark', ['class' => "btn btn-danger btn-block"]) !!}
+                {!! Form::close() !!}
             </aside>
             <div class="col-xs-8">
                 @if (count($microposts) > 0)

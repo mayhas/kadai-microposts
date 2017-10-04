@@ -35,7 +35,13 @@ Route::group(['middleware' => 'auth'], function () {
         Route::delete('unfollow', 'UserFollowController@destroy')->name('user.unfollow');
         Route::get('followings', 'UsersController@followings')->name('users.followings');
         Route::get('followers', 'UsersController@followers')->name('users.followers');
+
+        Route::post('bookmark', 'BookmarkController@store')->name('user.bookmark');
+        Route::delete('unbookmark', 'BookmarkController@destroy')->name('user.unbookmark');
+        Route::get('bookmarkingings', 'UsersController@bookmarkings')->name('users.bookmarkings');
+        Route::get('bookmarkers', 'UsersController@bookmarkers')->name('users.bookmarkers');
+        Route::get('bookmark', 'BookmarkController@index')->name('users.bookmark');
     });    
-    
+
     Route::resource('microposts', 'MicropostsController', ['only' => ['store', 'destroy']]);
 });

@@ -98,4 +98,48 @@ class User extends Model implements AuthenticatableContract,
         $follow_user_ids[] = $this->id;
         return Micropost::whereIn('user_id', $follow_user_ids);
     }
+
+    public function bookmarkings()
+    {
+        return $this->belongsToMany(Micropost::class, 'user_bookmark', 'user_id', 'bookmark_id')->withTimestamps();
+    }    
+
+    public function bookmarkers()
+    {
+        return $this->belongsToMany(User::class, 'user_bookmark', 'bookmark_id', 'user_id')->withTimestamps();
+    }    
+
+    public function bookmark($micropostId)
+    {
+        // 既にBookmark登録しているかの確認
+        $exist = $this->is_bookmarking($micropostId);
+
+        if ($exist) {
+            // 既にBookmark登録していれば何もしない
+            return false;
+        } else {
+            // 未登録であればBookmark登録する
+            $this->bookmarkings()->attach($micropostId);
+            return true;
+        }
+    }
+    
+    public function unbookmark($micropostId)
+    {
+        // 既にBookmark登録しているかの確認
+        $exist = $this->is_bookmarking($micropostId);
+
+        if ($exist) {
+            // 既にBookmark登録していればフォローを外す
+            $this->bookmarkings()->detach($micropostId);
+            return true;
+        } else {
+            // 未登録であれば何もしない
+            return false;
+        }
+    }
+    
+    public function is_bookmarking($micropostId) {
+        return $this->bookmarkings()->where('bookmark_id', $micropostId)->exists();
+    }    
 }

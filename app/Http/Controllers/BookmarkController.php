@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-class WelcomeController extends Controller
+use App\Micropost;
+
+class BookmarkController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,14 +21,14 @@ class WelcomeController extends Controller
         $data = [];
         if (\Auth::check()) {
             $user = \Auth::user();
-            $microposts = $user->feed_microposts()->orderBy('created_at', 'desc')->paginate(5);
-
+            $bookmarkings = $user->bookmarkings()->orderBy('created_at', 'desc')->paginate(6);
+            
             $data = [
                 'user' => $user,
-                'microposts' => $microposts,
+                'bookmarkings' => $bookmarkings,
             ];
         }
-        return view('welcome', $data);
+        return view('users.bookmark', $data);
     }
 
     /**
@@ -45,9 +47,10 @@ class WelcomeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$id)
     {
-        //
+        \Auth::user()->bookmark($id);
+        return redirect()->back();
     }
 
     /**
@@ -92,6 +95,7 @@ class WelcomeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        \Auth::user()->unbookmark($id);
+        return redirect()->back();
     }
 }

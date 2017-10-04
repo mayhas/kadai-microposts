@@ -19,6 +19,9 @@
                     {!! Form::close() !!}
                 @endif
             </div>
+            <div>
+                @include('bookmark.bookmark_button', ['id' => $micropost->id])
+            </div>
         </div>
     </li>
 @endforeach
