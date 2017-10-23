@@ -4,16 +4,26 @@
     @if (Auth::check())
         <div class="row">
             <aside class="col-md-4">
-                {!! Form::open(['route' => 'microposts.store']) !!}
+                {!! Form::open(['route' => 'microposts.store','files' => true]) !!}
                     <div class="form-group">
+                        {!! Form::label('text', '☆ テキストを入力してください', ['class' => 'control-label']) !!}
                         {!! Form::textarea('content', old('content'), ['class' => 'form-control', 'rows' => '5']) !!}
+                        
+                        <p>{!! nl2br("") !!}</p>
+
+                        {!! Form::label('file', '☆ 画像を選択してください（任意）', ['class' => 'control-label']) !!}
+                        {!! Form::file('photo') !!}
                     </div>
                     {!! Form::submit('Post', ['class' => 'btn btn-primary btn-block']) !!}
                 {!! Form::close() !!}
 
-                {!! Form::open(['route' => ['users.bookmark', Auth::user()->id], 'method' => 'get']) !!}
-                    {!! Form::submit('Show Bookmark', ['class' => "btn btn-danger btn-block"]) !!}
-                {!! Form::close() !!}
+                <p>{!! nl2br("") !!}</p>
+
+                <div>
+                    {!! Form::open(['route' => ['users.bookmark', Auth::user()->id], 'method' => 'get']) !!}
+                        {!! Form::submit('Show Bookmark', ['class' => "btn btn-info btn-block"]) !!}
+                    {!! Form::close() !!}
+                </div>
             </aside>
             <div class="col-xs-8">
                 @if (count($microposts) > 0)

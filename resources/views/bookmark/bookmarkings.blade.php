@@ -13,6 +13,9 @@
                 <p>{!! nl2br(e($bookmarking->content)) !!}</p>
             </div>
             <div>
+                <img src="{{ '/images/' . $bookmarking->filename }}" alt="" width="200px" height=auto>
+            </div>
+            <div>
                 @include('bookmark.bookmark_button', ['id' => $bookmarking->id])
             </div>
         </div>

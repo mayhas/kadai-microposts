@@ -142,4 +142,5 @@ class User extends Model implements AuthenticatableContract,
     public function is_bookmarking($micropostId) {
         return $this->bookmarkings()->where('bookmark_id', $micropostId)->exists();
     }    
+
 }
